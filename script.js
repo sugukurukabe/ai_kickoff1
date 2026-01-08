@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initPresentation() {
     const slides = document.querySelectorAll('.slide');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSlide = 0;
     const totalSlides = slides.length;
 
+    console.log("Presentation loaded. Total slides:", totalSlides);
+
     function updateSlide() {
         slides.forEach((slide, index) => {
             if (index === currentSlide) {
                 slide.classList.add('active');
-                // Optional: add exit animations for previous slide here if needed
             } else {
                 slide.classList.remove('active');
             }
@@ -23,8 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Background hue shift
-        const hue = (currentSlide * 10) % 360;
-        // body.style.setProperty('--bg-gradient', ...); // Reserved for future use
+        // const hue = (currentSlide * 10) % 360;
     }
 
     function nextSlide() {
@@ -42,8 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event Listeners
-    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            console.log("Next button clicked");
+            nextSlide();
+        });
+    }
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            console.log("Prev button clicked");
+            prevSlide();
+        });
+    }
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
@@ -55,4 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize
     updateSlide();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPresentation);
+} else {
+    initPresentation();
+}
