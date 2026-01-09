@@ -457,8 +457,17 @@ main {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    z-index: 100;
+    z-index: 9999;
+    /* Boost z-index to ensure visibility */
+    pointer-events: auto;
 }
+
+.background-animation,
+.particles {
+    pointer-events: none;
+    /* Prevent blocking clicks */
+}
+
 
 .control-btn {
     background: rgba(255, 255, 255, 0.1);

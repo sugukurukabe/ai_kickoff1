@@ -3,12 +3,16 @@ function initPresentation() {
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const slideNumberDisplay = document.getElementById('slidenumber');
-    const body = document.body;
 
     let currentSlide = 0;
     const totalSlides = slides.length;
 
-    console.log("Presentation loaded. Total slides:", totalSlides);
+    console.log("Presentation loaded. Total slides key:", totalSlides);
+
+    if (totalSlides === 0) {
+        console.error("No slides found!");
+        return;
+    }
 
     function updateSlide() {
         slides.forEach((slide, index) => {
@@ -22,9 +26,6 @@ function initPresentation() {
         if (slideNumberDisplay) {
             slideNumberDisplay.textContent = `${currentSlide + 1} / ${totalSlides}`;
         }
-
-        // Background hue shift
-        // const hue = (currentSlide * 10) % 360;
     }
 
     function nextSlide() {
@@ -43,22 +44,26 @@ function initPresentation() {
 
     // Event Listeners
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
+        nextBtn.onclick = (e) => { // Use onclick directly to avoid duplicate listeners
+            e.preventDefault();
             console.log("Next button clicked");
             nextSlide();
-        });
+        };
     }
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
+        prevBtn.onclick = (e) => {
+            e.preventDefault();
             console.log("Prev button clicked");
             prevSlide();
-        });
+        };
     }
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault(); // Prevent scrolling
             nextSlide();
         } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
             prevSlide();
         }
     });
@@ -67,6 +72,7 @@ function initPresentation() {
     updateSlide();
 }
 
+// Ensure init runs after DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initPresentation);
 } else {
