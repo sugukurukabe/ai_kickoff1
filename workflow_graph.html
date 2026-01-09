@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Visualization</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>開発フロー図</h1>
+        <div class="mermaid">
+            graph TD
+            %% 定義: 役割ごとのスタイル
+            classDef Human fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000;
+            classDef Claude fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000;
+            classDef MiniMax fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000;
+            classDef System fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000;
+
+            subgraph Phase1_Hearing ["<b>Phase 1: 受注・設計 (Hearing)</b>"]
+            A["<b>オンライン打ち合わせ</b><br>竹之内 & クライアント"]:::Human -->|画面共有しながら入力| B["<b>Google Form</b><br>要件定義シート"]:::Human
+            B --> C{"<b>受注確定</b>"}:::Human
+            end
+
+            subgraph Phase2_Architecture ["<b>Phase 2: 設計・構築 (Architect)</b>"]
+            C -->|回答データを入力| D["<b>Claude (Latest Sonnet)</b><br>構成案・コピー作成"]:::Claude
+            D -->|構成OK| E["<b>Claude (Latest Opus)</b><br>コーディング実行"]:::Claude
+            E -->|React/Next.js| F["<b>ベースサイト完成</b><br>GithubへPush"]:::System
+            end
+
+            subgraph Phase3_Magic ["<b>Phase 3: 演出・改善 (Magic)</b>"]
+            F -->|URL確認| G["<b>MiniMax 2.1</b><br>デザインレビュー & 改善案"]:::MiniMax
+            G -->|動画・アニメーション生成| H["<b>MiniMax 2.1</b><br>素材生成 & 演出コード"]:::MiniMax
+            H --> I["<b>最終コード統合</b>"]:::System
+            end
+
+            subgraph Phase4_Delivery ["<b>Phase 4: 納品 (Delivery)</b>"]
+            I --> J["<b>テスト環境確認</b><br>クライアントチェック"]:::Human
+            J -- 修正依頼 --> E
+            J -- OK --> K["<b>本番公開 (Vercel)</b>"]:::System
+            K --> L["<b>引渡し・請求</b><br>マニュアル自動生成"]:::Claude
+            end
+        </div>
+    </div>
+
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+
+</html>
